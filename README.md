@@ -7,3 +7,6 @@ A simple game of Battleship in Python.
 Clone the rep and run:
 
 `python battleship.py`
+
+
+#WIP
