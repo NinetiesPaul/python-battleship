@@ -2,11 +2,15 @@ import random
 import time
 import os
 
-def printBoard(board):
-	print("__|A B C D E F G H I J")
-	for i,row in enumerate(board):
-		print(str(i + 1).rjust(2, "0"), end="|")
-		print(" ".join(row))
+def printBoard(board, clearScreen = False):
+    if clearScreen:
+        os.system('cls||clear')
+        
+    print(message)
+    print("__|A B C D E F G H I J")
+    for i,row in enumerate(board):
+        print(str(i + 1).rjust(2, "0"), end="|")
+        print(" ".join(row))
 
 def buildBoard(showLabel = False):
     coordinates = []
@@ -67,7 +71,7 @@ computerBoard, allComputerCoords = buildBoard()
 App's main logic
 """
 letterPos = 'ABCDEFGHIJ'
-playerTurn = random.choice([False, True])
+playerTurn = True
 pickedEnemyCoords = []
 pickedPlayerCoords = []
 computerFireAgain = False
@@ -78,8 +82,7 @@ while runProgram:
 
     currentTurn = "Player" if playerTurn else "Computer"
     currentBoard = "Computer" if playerTurn else "Player"
-    print(currentTurn + "'s turn!")
-    print("Showing " + currentBoard + "'s board!")
+    message = currentTurn + "'s turn! | Showing " + currentBoard + "'s board!"
     printBoard(computerBoard if playerTurn else playerBoard)
 
     if not playerTurn:
@@ -116,6 +119,7 @@ while runProgram:
         positionText = ",".join([letterPos[cpuX], str(cpuY + 1)])
         print("Firing again at", positionText, "!") if computerFireAgain else print("Firing at", positionText, "!")
         time.sleep(3)
+        input("Press any key to continue. ")
 
         outcome = 'Missed!'
         coord = ",".join([str(cpuX), str(cpuY)])
@@ -130,6 +134,7 @@ while runProgram:
             playerTurn = True # False for Debug
             computerFireAgain = False
 
+        printBoard(playerBoard, True)
         print(outcome)
         pickedEnemyCoords.append([cpuX, cpuY])
         input("Press any key to continue. ")
@@ -141,7 +146,7 @@ while runProgram:
             runProgram = False
             print("Bye")
         elif len(option) == 0 or "," not in option or len(option.split(',')) != 2:
-            print("Try again")
+            continue
         else:
             posX, posY = letterPos.find(option.split(',')[0].upper()), option.split(',')[1]
             
@@ -169,5 +174,6 @@ while runProgram:
                     pickedPlayerCoords.append([posX, posY])
                     playerTurn = False
 
+                printBoard(computerBoard, True)
                 print(outcome)
                 input("Press any key to continue. ")
