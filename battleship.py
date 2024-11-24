@@ -82,7 +82,7 @@ while runProgram:
 
     currentTurn = "Player" if playerTurn else "Computer"
     currentBoard = "Computer" if playerTurn else "Player"
-    message = currentTurn + "'s turn! | Showing " + currentBoard + "'s board!"
+    message = currentTurn + "'s turn! | Showing " + currentBoard + "'s board"
     printBoard(computerBoard if playerTurn else playerBoard)
 
     if not playerTurn:
@@ -117,9 +117,8 @@ while runProgram:
                 continue
 
         positionText = ",".join([letterPos[cpuX], str(cpuY + 1)])
-        print("Firing again at", positionText, "!") if computerFireAgain else print("Firing at", positionText, "!")
+        print("Firing again at", positionText +  "...") if computerFireAgain else print("Firing at", positionText + "...")
         time.sleep(3)
-        input("Press any key to continue. ")
 
         outcome = 'Missed!'
         coord = ",".join([str(cpuX), str(cpuY)])
@@ -134,7 +133,8 @@ while runProgram:
             playerTurn = True # False for Debug
             computerFireAgain = False
 
-        printBoard(playerBoard, True)
+        if outcome != 'Missed!':
+            printBoard(playerBoard, True)
         print(outcome)
         pickedEnemyCoords.append([cpuX, cpuY])
         input("Press any key to continue. ")
@@ -158,7 +158,10 @@ while runProgram:
                 posY = int(posY)
                 posY -= 1
 
-                print("Firing at", ",".join([letterPos[posX], str(posY + 1)]), "!")
+                if [posX, posY] in pickedPlayerCoords:
+                    continue
+
+                print("Firing at", ",".join([letterPos[posX], str(posY + 1)]) + "...")
                 time.sleep(3)
 
                 outcome = 'Missed!'
@@ -167,13 +170,13 @@ while runProgram:
                     outcome = "That's a hit! Get ready to firing again!"
                     computerBoard[posY][posX] = 'X'
                     allComputerCoords.remove(coord)
-                    pickedPlayerCoords.append([posX, posY])
                     playerTurn = True
                 else:
                     computerBoard[posY][posX] = 'O'
-                    pickedPlayerCoords.append([posX, posY])
                     playerTurn = False
+                pickedPlayerCoords.append([posX, posY])
 
-                printBoard(computerBoard, True)
+                if outcome != 'Missed!':
+                    printBoard(computerBoard, True)
                 print(outcome)
                 input("Press any key to continue. ")
