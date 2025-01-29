@@ -76,6 +76,7 @@ pickedEnemyCoords = []
 pickedPlayerCoords = []
 computerFireAgain = False
 runProgram = True
+winner = ""
 
 while runProgram:
     os.system('cls||clear')
@@ -84,6 +85,10 @@ while runProgram:
     currentBoard = "Computer" if playerTurn else "Player"
     message = currentTurn + "'s turn! | Showing " + currentBoard + "'s board"
     printBoard(computerBoard if playerTurn else playerBoard)
+
+    if len(allPlayerCoords) == 0 or len(allComputerCoords) == 0:
+        runProgram = False
+        winner = "Game ended!" + (" Player won!" if len(allComputerCoords) == 0 else " Computer won!" )
 
     if not playerTurn:
         pickingCoord = True 
@@ -137,7 +142,7 @@ while runProgram:
             printBoard(playerBoard, True)
         print(outcome)
         pickedEnemyCoords.append([cpuX, cpuY])
-        input("Press any key to continue. ")
+        input("Press any key to continue.") # Comment this for Debug
 
     else:
         option = input("Pick a coordinate (letter,number): ")
@@ -180,3 +185,5 @@ while runProgram:
                     printBoard(computerBoard, True)
                 print(outcome)
                 input("Press any key to continue. ")
+
+print(winner)
