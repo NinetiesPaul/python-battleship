@@ -2,9 +2,8 @@ import random
 import time
 import os
 
-def printBoard(board, clearScreen = False):
-    if clearScreen:
-        os.system('cls||clear')
+def printBoard(board, message):
+    os.system('cls||clear')
         
     print(message)
     print("__|A B C D E F G H I J")
@@ -84,7 +83,7 @@ while runProgram:
     currentTurn = "Player" if playerTurn else "Computer"
     currentBoard = "Computer" if playerTurn else "Player"
     message = currentTurn + "'s turn! | Showing " + currentBoard + "'s board"
-    printBoard(computerBoard if playerTurn else playerBoard)
+    printBoard(computerBoard if playerTurn else playerBoard, message)
 
     if len(allPlayerCoords) == 0 or len(allComputerCoords) == 0:
         runProgram = False
@@ -138,9 +137,7 @@ while runProgram:
             playerTurn = True # False for Debug
             computerFireAgain = False
 
-        if outcome != 'Missed!':
-            printBoard(playerBoard, True)
-        print(outcome)
+        printBoard(playerBoard, outcome)
         pickedEnemyCoords.append([cpuX, cpuY])
         input("Press any key to continue.") # Comment this for Debug
 
@@ -181,9 +178,7 @@ while runProgram:
                     playerTurn = False
                 pickedPlayerCoords.append([posX, posY])
 
-                if outcome != 'Missed!':
-                    printBoard(computerBoard, True)
-                print(outcome)
+                printBoard(computerBoard, outcome)
                 input("Press any key to continue. ")
 
 print(winner)
